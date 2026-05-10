@@ -14,9 +14,9 @@ public class JobTracker extends JFrame {
     private static final Color BG_CARD = new Color(43, 43, 43);
     private static final Color BG_ROW_ALT = new Color(35, 35, 35);
     private static final Color ACCENT = new Color(224, 224, 224);
-    private static final Color ACCENT_DIM = new Color(160, 160, 160);
+    private static final Color ACCENT_DIM = new Color(224, 224, 224);
     private static final Color HEADER_BG = new Color(0, 0, 0);
-    private static final Color BORDER_COLOR = new Color(50, 50, 50);
+    private static final Color BORDER_COLOR = new Color(68, 68, 68);
     private static final Color BTN_ADD_BG = new Color(255, 255, 255);
     private static final Color BTN_ADD_FG = new Color(28, 28, 28);
     private static final Color BTN_DEL_BG = new Color(40, 15, 15);
@@ -79,7 +79,7 @@ public class JobTracker extends JFrame {
             ghc.weightx = (i == 5) ? 1.0 : 0;
             JLabel lbl = new JLabel(cols[i], SwingConstants.CENTER);
             lbl.setForeground(ACCENT_DIM);
-            lbl.setFont(new Font("SansSerif", Font.BOLD, 11));
+            lbl.setFont(new Font("SansSerif", Font.BOLD, 15));
             lbl.setPreferredSize(new Dimension(widths[i], 16));
             header.add(lbl, ghc);
         }
@@ -114,8 +114,8 @@ public class JobTracker extends JFrame {
         statusBar.setBorder(new MatteBorder(1, 0, 0, 0, BORDER_COLOR));
 
         JLabel statusLbl = new JLabel("All data is saved automatically to job_tracker_data.txt");
-        statusLbl.setForeground(new Color(80, 80, 80));
-        statusLbl.setFont(new Font("SansSerif", Font.PLAIN, 10));
+        statusLbl.setForeground(new Color(224, 224, 224));
+        statusLbl.setFont(new Font("SansSerif", Font.BOLD, 10));
 
         statusBar.add(statusLbl);
         add(statusBar, BorderLayout.SOUTH);
@@ -194,7 +194,7 @@ public class JobTracker extends JFrame {
 
         // Link
         JTextField linkField = styledTextField(link != null ? link : "", 200);
-        linkField.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        linkField.setFont(new Font("SansSerif", Font.BOLD, 11));
         linkField.setForeground(new Color(100, 160, 255));
         linkField.setHorizontalAlignment(JTextField.CENTER);
         entry.linkField = linkField;
@@ -259,7 +259,7 @@ public class JobTracker extends JFrame {
         f.setBackground(new Color(35, 35, 35));
         f.setForeground(ACCENT);
         f.setCaretColor(ACCENT);
-        f.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        f.setFont(new Font("SansSerif", Font.BOLD, 12));
         f.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(BORDER_COLOR, 1),
                 new EmptyBorder(4, 8, 4, 8)
@@ -273,7 +273,7 @@ public class JobTracker extends JFrame {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(new Color(35, 35, 35));
         cb.setForeground(ACCENT);
-        cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
+        cb.setFont(new Font("SansSerif", Font.BOLD, 11));
         cb.setBorder(new LineBorder(BORDER_COLOR, 1));
         cb.setFocusable(false);
         DefaultListCellRenderer r = new DefaultListCellRenderer();
@@ -286,7 +286,7 @@ public class JobTracker extends JFrame {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(new Color(35, 35, 35));
         cb.setForeground(STATUS_WAITING);
-        cb.setFont(new Font("Courier New", Font.BOLD, 11));
+        cb.setFont(new Font("SansSerif", Font.BOLD, 11));
         cb.setBorder(new LineBorder(BORDER_COLOR, 1));
         cb.setFocusable(false);
         DefaultListCellRenderer r = new DefaultListCellRenderer();
@@ -356,8 +356,8 @@ public class JobTracker extends JFrame {
 
             Graphics2D g2d = (Graphics2D) g;
 
-            Color start = new Color(20, 20, 20);
-            Color end   = new Color(60, 60, 60);
+            Color start = new Color(18, 18, 18);
+            Color end   = new Color(43, 43, 43);
 
             GradientPaint gp = new GradientPaint(
                     0, 0, start,
