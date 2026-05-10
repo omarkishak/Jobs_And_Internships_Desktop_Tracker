@@ -7,7 +7,6 @@ import javax.swing.border.*;
 import java.io.*;
 import java.util.*;
 
-
 public class JobTracker extends JFrame {
 
     private static final String DATA_FILE = "job_tracker_data.txt";
@@ -49,11 +48,11 @@ public class JobTracker extends JFrame {
         topBar.setBackground(BG_BLACK);
         topBar.setBorder(new EmptyBorder(28, 36, 0, 36));
 
-        JLabel title = new JLabel("JOB TRACKER");
+        JLabel title = new JLabel("JOB & INTERNSHIPS TRACKER");
         title.setForeground(ACCENT);
-        title.setFont(new Font("Courier New", Font.BOLD, 22));
+        title.setFont(new Font("SansSerif", Font.BOLD, 30));
 
-        JButton addBtn = new JButton("+ New Application");
+        JButton addBtn = new JButton("Add New Application");
         styleAddButton(addBtn);
         addBtn.addActionListener(e -> addNewEntry(null, null, null, null, null));
 
@@ -68,7 +67,7 @@ public class JobTracker extends JFrame {
                 new EmptyBorder(10, 14, 10, 14)
         ));
 
-        String[] cols   = {"#", "Company Name", "Type", "Field", "Status", "Link", ""};
+        String[] cols   = {"#", "Company Name: ", "Type: ", "Field: ", "Status: ", "Link: ", "X"};
         int[]    widths = {40,  200,             110,    140,     130,      200,    80};
         GridBagConstraints ghc = new GridBagConstraints();
         ghc.fill = GridBagConstraints.HORIZONTAL;
@@ -78,7 +77,7 @@ public class JobTracker extends JFrame {
             ghc.weightx = (i == 5) ? 1.0 : 0;
             JLabel lbl = new JLabel(cols[i], SwingConstants.CENTER);
             lbl.setForeground(ACCENT_DIM);
-            lbl.setFont(new Font("Courier New", Font.BOLD, 11));
+            lbl.setFont(new Font("SansSerif", Font.BOLD, 11));
             lbl.setPreferredSize(new Dimension(widths[i], 16));
             header.add(lbl, ghc);
         }
@@ -107,7 +106,7 @@ public class JobTracker extends JFrame {
         statusBar.setBorder(new MatteBorder(1, 0, 0, 0, BORDER_COLOR));
         JLabel statusLbl = new JLabel("All data is saved automatically to job_tracker_data.txt");
         statusLbl.setForeground(new Color(80, 80, 80));
-        statusLbl.setFont(new Font("Courier New", Font.PLAIN, 10));
+        statusLbl.setFont(new Font("SansSerif", Font.PLAIN, 10));
         statusBar.add(statusLbl);
         add(statusBar, BorderLayout.SOUTH);
     }
@@ -115,7 +114,7 @@ public class JobTracker extends JFrame {
     private void styleAddButton(JButton btn) {
         btn.setBackground(BTN_ADD_BG);
         btn.setForeground(BTN_ADD_FG);
-        btn.setFont(new Font("Courier New", Font.BOLD, 12));
+        btn.setFont(new Font("SansSerif", Font.BOLD, 12));
         btn.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(200, 200, 200), 1),
                 new EmptyBorder(8, 18, 8, 18)
@@ -157,7 +156,7 @@ public class JobTracker extends JFrame {
         // Row number — stored in entry so renumberRows() can update it
         JLabel numLabel = new JLabel(String.valueOf(entries.size()), SwingConstants.CENTER);
         numLabel.setForeground(new Color(100, 100, 100));
-        numLabel.setFont(new Font("Courier New", Font.BOLD, 12));
+        numLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
         numLabel.setPreferredSize(new Dimension(40, 32));
         entry.numLabel = numLabel;
 
@@ -185,7 +184,7 @@ public class JobTracker extends JFrame {
 
         // Link
         JTextField linkField = styledTextField(link != null ? link : "", 200);
-        linkField.setFont(new Font("Courier New", Font.PLAIN, 11));
+        linkField.setFont(new Font("SansSerif", Font.PLAIN, 11));
         linkField.setForeground(new Color(100, 160, 255));
         linkField.setHorizontalAlignment(JTextField.CENTER);
         entry.linkField = linkField;
@@ -194,7 +193,7 @@ public class JobTracker extends JFrame {
         JButton delBtn = new JButton("Delete");
         delBtn.setBackground(BTN_DEL_BG);
         delBtn.setForeground(BTN_DEL_FG);
-        delBtn.setFont(new Font("Courier New", Font.BOLD, 10));
+        delBtn.setFont(new Font("SansSerif", Font.BOLD, 10));
         delBtn.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(new Color(100, 30, 30), 1),
                 new EmptyBorder(5, 10, 5, 10)
@@ -250,7 +249,7 @@ public class JobTracker extends JFrame {
         f.setBackground(new Color(35, 35, 35));
         f.setForeground(ACCENT);
         f.setCaretColor(ACCENT);
-        f.setFont(new Font("Courier New", Font.PLAIN, 12));
+        f.setFont(new Font("SansSerif", Font.PLAIN, 12));
         f.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(BORDER_COLOR, 1),
                 new EmptyBorder(4, 8, 4, 8)
@@ -264,7 +263,7 @@ public class JobTracker extends JFrame {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(new Color(35, 35, 35));
         cb.setForeground(ACCENT);
-        cb.setFont(new Font("Courier New", Font.PLAIN, 11));
+        cb.setFont(new Font("SansSerif", Font.PLAIN, 11));
         cb.setBorder(new LineBorder(BORDER_COLOR, 1));
         cb.setFocusable(false);
         DefaultListCellRenderer r = new DefaultListCellRenderer();
