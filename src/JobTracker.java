@@ -10,10 +10,10 @@ import java.util.*;
 public class JobTracker extends JFrame {
 
     private static final String DATA_FILE = "job_tracker_data.txt";
-    private static final Color BG_BLACK = new Color(28, 28, 28);
+    private static final Color BG_BLACK = new Color(18, 18, 18);
     private static final Color BG_CARD = new Color(43, 43, 43);
     private static final Color BG_ROW_ALT = new Color(35, 35, 35);
-    private static final Color ACCENT = new Color(255, 255, 255);
+    private static final Color ACCENT = new Color(224, 224, 224);
     private static final Color ACCENT_DIM = new Color(160, 160, 160);
     private static final Color HEADER_BG = new Color(0, 0, 0);
     private static final Color BORDER_COLOR = new Color(50, 50, 50);
@@ -36,7 +36,7 @@ public class JobTracker extends JFrame {
         setSize(1200, 700);
         setMinimumSize(new Dimension(950, 500));
         setLocationRelativeTo(null);
-        getContentPane().setBackground(BG_BLACK);
+        setContentPane(new GradientPanel());
         setLayout(new BorderLayout());
         buildUI();
         loadData();
@@ -46,6 +46,7 @@ public class JobTracker extends JFrame {
     private void buildUI() {
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setBackground(BG_BLACK);
+        topBar.setOpaque(false); // FIX
         topBar.setBorder(new EmptyBorder(28, 36, 0, 36));
 
         JLabel title = new JLabel("JOB & INTERNSHIPS TRACKER");
@@ -72,6 +73,7 @@ public class JobTracker extends JFrame {
         GridBagConstraints ghc = new GridBagConstraints();
         ghc.fill = GridBagConstraints.HORIZONTAL;
         ghc.insets = new Insets(0, 4, 0, 4);
+
         for (int i = 0; i < cols.length; i++) {
             ghc.gridx = i;
             ghc.weightx = (i == 5) ? 1.0 : 0;
@@ -85,28 +87,36 @@ public class JobTracker extends JFrame {
         entriesPanel = new JPanel();
         entriesPanel.setLayout(new BoxLayout(entriesPanel, BoxLayout.Y_AXIS));
         entriesPanel.setBackground(BG_BLACK);
+        entriesPanel.setOpaque(false);
 
         scrollPane = new JScrollPane(entriesPanel);
         scrollPane.setBorder(null);
         scrollPane.setBackground(BG_BLACK);
-        scrollPane.getViewport().setBackground(BG_BLACK);
+        scrollPane.setOpaque(false);
+        scrollPane.getViewport().setOpaque(false);
+
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getVerticalScrollBar().setBackground(BG_BLACK);
         scrollPane.getHorizontalScrollBar().setBackground(BG_BLACK);
 
         JPanel centerArea = new JPanel(new BorderLayout());
         centerArea.setBackground(BG_BLACK);
+        centerArea.setOpaque(false);
         centerArea.setBorder(new EmptyBorder(20, 36, 20, 36));
+
         centerArea.add(header, BorderLayout.NORTH);
         centerArea.add(scrollPane, BorderLayout.CENTER);
         add(centerArea, BorderLayout.CENTER);
 
         JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 36, 8));
         statusBar.setBackground(new Color(15, 15, 15));
+        statusBar.setOpaque(false); // FIX
         statusBar.setBorder(new MatteBorder(1, 0, 0, 0, BORDER_COLOR));
+
         JLabel statusLbl = new JLabel("All data is saved automatically to job_tracker_data.txt");
         statusLbl.setForeground(new Color(80, 80, 80));
         statusLbl.setFont(new Font("SansSerif", Font.PLAIN, 10));
+
         statusBar.add(statusLbl);
         add(statusBar, BorderLayout.SOUTH);
     }
@@ -337,6 +347,26 @@ public class JobTracker extends JFrame {
         default void insertUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
         default void removeUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
         default void changedUpdate(javax.swing.event.DocumentEvent e) { onChange(); }
+    }
+
+    class GradientPanel extends JPanel {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            Graphics2D g2d = (Graphics2D) g;
+
+            Color start = new Color(20, 20, 20);
+            Color end   = new Color(60, 60, 60);
+
+            GradientPaint gp = new GradientPaint(
+                    0, 0, start,
+                    getWidth(), getHeight(), end
+            );
+
+            g2d.setPaint(gp);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }
     }
 
     public static void main(String[] args) {
