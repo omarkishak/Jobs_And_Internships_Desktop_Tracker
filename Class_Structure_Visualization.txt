@@ -1,0 +1,185 @@
+JobTracker Application
+│
+├── main()
+│    │
+│    ├── Set Swing UI look & feel
+│    ├── Customize scrollbar colors
+│    └── Launch JobTracker window
+│
+│
+└── JobTracker (JFrame Window)
+     │
+     ├── Constructor
+     │    │
+     │    ├── Set title
+     │    ├── Set window size
+     │    ├── Set minimum size
+     │    ├── Center window on screen
+     │    ├── Set GradientPanel as background
+     │    ├── Set BorderLayout
+     │    ├── buildUI()
+     │    ├── loadData()
+     │    └── setVisible(true)
+     │
+     │
+     ├── GradientPanel (custom background painter)
+     │    │
+     │    └── paintComponent(Graphics g)
+     │          │
+     │          ├── Create Graphics2D
+     │          ├── Create start color
+     │          ├── Create end color
+     │          ├── Create GradientPaint
+     │          └── Paint full window gradient
+     │
+     │
+     ├── buildUI()
+     │    │
+     │    ├── Top Bar
+     │    │    │
+     │    │    ├── Title Label
+     │    │    └── "Add New Application" Button
+     │    │
+     │    │
+     │    ├── Header Row
+     │    │    │
+     │    │    ├── #
+     │    │    ├── Company Name
+     │    │    ├── Type
+     │    │    ├── Field
+     │    │    ├── Status
+     │    │    ├── Link
+     │    │    └── Delete Column
+     │    │
+     │    │
+     │    ├── entriesPanel (stores all rows)
+     │    │    │
+     │    │    ├── row 1
+     │    │    ├── row 2
+     │    │    ├── row 3
+     │    │    └── ...
+     │    │
+     │    │
+     │    ├── scrollPane
+     │    │    │
+     │    │    └── makes entriesPanel scrollable
+     │    │
+     │    │
+     │    ├── centerArea
+     │    │    │
+     │    │    ├── header
+     │    │    └── scrollPane
+     │    │
+     │    │
+     │    └── statusBar
+     │         │
+     │         └── "data saved automatically" label
+     │
+     │
+     ├── entries List
+     │    │
+     │    └── stores all JobEntry objects
+     │
+     │
+     ├── addNewEntry(...)
+     │    │
+     │    ├── Create JobEntry object
+     │    ├── Add object to entries list
+     │    ├── Create row JPanel
+     │    │
+     │    ├── Create components
+     │    │    │
+     │    │    ├── Number label
+     │    │    ├── Company text field
+     │    │    ├── Type combo box
+     │    │    ├── Field combo box
+     │    │    ├── Status combo box
+     │    │    ├── Link text field
+     │    │    └── Delete button
+     │    │
+     │    │
+     │    ├── Add listeners
+     │    │    │
+     │    │    ├── Text change → saveData()
+     │    │    ├── Combo change → saveData()
+     │    │    └── Delete button → remove row
+     │    │
+     │    │
+     │    ├── Add row to entriesPanel
+     │    ├── Refresh UI
+     │    ├── Scroll to bottom
+     │    └── Save automatically
+     │
+     │
+     ├── Delete Button Logic
+     │    │
+     │    ├── Remove JobEntry from entries list
+     │    ├── Remove row panel from entriesPanel
+     │    ├── Revalidate UI
+     │    ├── Repaint UI
+     │    ├── renumberRows()
+     │    └── saveData()
+     │
+     │
+     ├── renumberRows()
+     │    │
+     │    └── Update all row numbers after deletion
+     │
+     │
+     ├── styledTextField()
+     │    │
+     │    └── Creates styled JTextField
+     │
+     │
+     ├── styledCombo()
+     │    │
+     │    └── Creates styled JComboBox
+     │
+     │
+     ├── styledComboStatus()
+     │    │
+     │    ├── Creates status combo box
+     │    └── Changes text color based on status
+     │
+     │
+     ├── saveData()
+     │    │
+     │    ├── Open job_tracker_data.txt
+     │    ├── Loop through entries list
+     │    ├── Extract field values
+     │    ├── Convert data to:
+     │    │
+     │    │      company|type|field|status|link
+     │    │
+     │    └── Write all rows to file
+     │
+     │
+     ├── loadData()
+     │    │
+     │    ├── Open data file
+     │    ├── Read line by line
+     │    ├── Split line using |
+     │    ├── Recreate saved values
+     │    └── Call addNewEntry(...)
+     │
+     │
+     ├── JobEntry class
+     │    │
+     │    └── Stores references to row components
+     │         │
+     │         ├── numLabel
+     │         ├── companyField
+     │         ├── typeBox
+     │         ├── fieldBox
+     │         ├── statusBox
+     │         └── linkField
+     │
+     │
+     └── SimpleDocListener
+          │
+          └── Detects text changes
+               │
+               ├── insertUpdate()
+               ├── removeUpdate()
+               ├── changedUpdate()
+               └── onChange()
