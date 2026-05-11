@@ -4,6 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
+//data retrieve
 import java.io.*;
 import java.util.*;
 
@@ -28,25 +29,32 @@ public class JobTracker extends JFrame {
 
     private JPanel entriesPanel;
     private JScrollPane scrollPane;
+    //data array
     private final java.util.List<JobEntry> entries = new ArrayList<>();
 
+    //main background & interface
     public JobTracker() {
         setTitle("Job Tracker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 700);
+        //smallest possible size
         setMinimumSize(new Dimension(950, 500));
         setLocationRelativeTo(null);
+        //background color
         setContentPane(new GradientPanel());
         setLayout(new BorderLayout());
+        //group elemnts together
         buildUI();
         loadData();
         setVisible(true);
     }
 
     private void buildUI() {
+        //top bar gui
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setBackground(BG_BLACK);
-        topBar.setOpaque(false); // FIX
+        //control trancperency
+        topBar.setOpaque(false);
         topBar.setBorder(new EmptyBorder(28, 36, 0, 36));
 
         JLabel title = new JLabel("JOB & INTERNSHIPS TRACKER");
@@ -61,6 +69,7 @@ public class JobTracker extends JFrame {
         topBar.add(addBtn, BorderLayout.EAST);
         add(topBar, BorderLayout.NORTH);
 
+        //under bar shape
         JPanel header = new JPanel(new GridBagLayout());
         header.setBackground(HEADER_BG);
         header.setBorder(BorderFactory.createCompoundBorder(
@@ -68,12 +77,14 @@ public class JobTracker extends JFrame {
                 new EmptyBorder(10, 14, 10, 14)
         ));
 
+        //bar text building
         String[] cols   = {"#", "Company Name: ", "Type: ", "Field: ", "Status: ", "Link: ", "X"};
         int[]    widths = {40,  200,             110,    140,     130,      200,    80};
         GridBagConstraints ghc = new GridBagConstraints();
         ghc.fill = GridBagConstraints.HORIZONTAL;
         ghc.insets = new Insets(0, 4, 0, 4);
 
+        //bar text printing
         for (int i = 0; i < cols.length; i++) {
             ghc.gridx = i;
             ghc.weightx = (i == 5) ? 1.0 : 0;

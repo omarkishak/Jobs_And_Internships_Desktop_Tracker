@@ -1,4 +1,6 @@
-google|Internship|Tech|In Progress|google.come
-Amazon|Job|Other|Accepted|
+|Job|Tech|Waiting|
+|Job|Tech|Waiting|
+|Job|Tech|Waiting|
+|Job|Tech|Waiting|
 |Job|Tech|Waiting|
 |Job|Tech|Waiting|
