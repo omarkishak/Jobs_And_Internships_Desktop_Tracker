@@ -137,6 +137,7 @@ public class JobTracker extends JFrame {
         add(statusBar, BorderLayout.SOUTH);
     }
 
+    //add button color
     private void styleAddButton(JButton btn) {
         btn.setBackground(BTN_ADD_BG);
         btn.setForeground(BTN_ADD_FG);
@@ -153,11 +154,13 @@ public class JobTracker extends JFrame {
         });
     }
 
+    //resorting number
     private void renumberRows() {
         for (int i = 0; i < entries.size(); i++) {
             entries.get(i).numLabel.setText(String.valueOf(i + 1));
         }
     }
+
 
     private void addNewEntry(String company, String type, String field, String status, String link) {
         JobEntry entry = new JobEntry();
@@ -179,10 +182,10 @@ public class JobTracker extends JFrame {
         rc.insets = new Insets(0, 4, 0, 4);
         rc.gridy = 0;
 
-        // Row number — stored in entry so renumberRows() can update it
+        // Row number stored in entry so renumberRows() can update it
         JLabel numLabel = new JLabel(String.valueOf(entries.size()), SwingConstants.CENTER);
         numLabel.setForeground(new Color(100, 100, 100));
-        numLabel.setFont(new Font("SansSerif", Font.BOLD, 12));
+        numLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
         numLabel.setPreferredSize(new Dimension(40, 32));
         entry.numLabel = numLabel;
 
@@ -197,7 +200,7 @@ public class JobTracker extends JFrame {
         entry.typeBox = typeBox;
 
         // Field
-        String[] fields = {"Tech", "Design", "Finance", "Marketing", "HR", "Sales", "Engineering", "Other"};
+        String[] fields = {"Tech", "Design", "Out Sourcing", "Sales", "Other"};
         JComboBox<String> fieldBox = styledCombo(fields);
         if (field != null) fieldBox.setSelectedItem(field);
         entry.fieldBox = fieldBox;
@@ -270,12 +273,13 @@ public class JobTracker extends JFrame {
         if (company == null) saveData();
     }
 
+    //text field when writing
     private JTextField styledTextField(String text, int width) {
         JTextField f = new JTextField(text);
         f.setBackground(new Color(35, 35, 35));
         f.setForeground(ACCENT);
         f.setCaretColor(ACCENT);
-        f.setFont(new Font("SansSerif", Font.BOLD, 12));
+        f.setFont(new Font("SansSerif", Font.BOLD, 15));
         f.setBorder(BorderFactory.createCompoundBorder(
                 new LineBorder(BORDER_COLOR, 1),
                 new EmptyBorder(4, 8, 4, 8)
@@ -349,6 +353,13 @@ public class JobTracker extends JFrame {
         } catch (IOException ex) { ex.printStackTrace(); }
     }
 
+    interface SimpleDocListener extends javax.swing.event.DocumentListener {
+        void onChange();
+        default void insertUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
+        default void removeUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
+        default void changedUpdate(javax.swing.event.DocumentEvent e) { onChange(); }
+    }
+
     static class JobEntry {
         JLabel numLabel;
         JTextField companyField;
@@ -356,13 +367,6 @@ public class JobTracker extends JFrame {
         JComboBox<String> fieldBox;
         JComboBox<String> statusBox;
         JTextField linkField;
-    }
-
-    interface SimpleDocListener extends javax.swing.event.DocumentListener {
-        void onChange();
-        default void insertUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
-        default void removeUpdate(javax.swing.event.DocumentEvent e)  { onChange(); }
-        default void changedUpdate(javax.swing.event.DocumentEvent e) { onChange(); }
     }
 
     class GradientPanel extends JPanel {

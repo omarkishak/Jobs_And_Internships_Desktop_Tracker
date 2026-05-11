@@ -1,7 +1,3 @@
-|Job|Sales|In Progress|
-|Job|Tech|Waiting|
-|Job|Tech|Waiting|
-|Job|Tech|Waiting|
 |Job|Tech|Waiting|
 |Job|Tech|Waiting|
 |Job|Tech|Waiting|
