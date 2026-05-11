@@ -29,7 +29,7 @@ public class JobTracker extends JFrame {
 
     private JPanel entriesPanel;
     private JScrollPane scrollPane;
-    //data array
+    // save data in array
     private final java.util.List<JobEntry> entries = new ArrayList<>();
 
     //main background & interface
@@ -39,6 +39,7 @@ public class JobTracker extends JFrame {
         setSize(1200, 700);
         //smallest possible size
         setMinimumSize(new Dimension(950, 500));
+        // open in middle of the screen
         setLocationRelativeTo(null);
         //background color
         setContentPane(new GradientPanel());
@@ -55,7 +56,7 @@ public class JobTracker extends JFrame {
         topBar.setBackground(BG_BLACK);
         //control trancperency
         topBar.setOpaque(false);
-        topBar.setBorder(new EmptyBorder(28, 36, 0, 36));
+        topBar.setBorder(new EmptyBorder(35, 36, 0, 36));
 
         JLabel title = new JLabel("JOB & INTERNSHIPS TRACKER");
         title.setForeground(ACCENT);
@@ -95,6 +96,7 @@ public class JobTracker extends JFrame {
             header.add(lbl, ghc);
         }
 
+        //panel and scrollpanel
         entriesPanel = new JPanel();
         entriesPanel.setLayout(new BoxLayout(entriesPanel, BoxLayout.Y_AXIS));
         entriesPanel.setBackground(BG_BLACK);
@@ -106,10 +108,12 @@ public class JobTracker extends JFrame {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
+        //scroll bar color and size
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getVerticalScrollBar().setBackground(BG_BLACK);
         scrollPane.getHorizontalScrollBar().setBackground(BG_BLACK);
 
+        //distance between title and bar
         JPanel centerArea = new JPanel(new BorderLayout());
         centerArea.setBackground(BG_BLACK);
         centerArea.setOpaque(false);
@@ -119,9 +123,10 @@ public class JobTracker extends JFrame {
         centerArea.add(scrollPane, BorderLayout.CENTER);
         add(centerArea, BorderLayout.CENTER);
 
+        //status specification
         JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 36, 8));
         statusBar.setBackground(new Color(15, 15, 15));
-        statusBar.setOpaque(false); // FIX
+        statusBar.setOpaque(false);
         statusBar.setBorder(new MatteBorder(1, 0, 0, 0, BORDER_COLOR));
 
         JLabel statusLbl = new JLabel("All data is saved automatically to job_tracker_data.txt");
