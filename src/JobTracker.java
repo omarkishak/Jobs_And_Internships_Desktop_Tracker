@@ -32,6 +32,8 @@ public class JobTracker extends JFrame {
     private final java.util.List<JobEntry> entries = new ArrayList<>();
 
     public JobTracker() {
+        setUndecorated(true);
+
         setTitle("Job Tracker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 700);
@@ -42,14 +44,24 @@ public class JobTracker extends JFrame {
         setLayout(new BorderLayout());
         buildUI();
         loadData();
+
         setVisible(true);
     }
 
     private void buildUI() {
+
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setBackground(BG_BLACK);
         topBar.setOpaque(false);
         topBar.setBorder(new EmptyBorder(35, 36, 0, 36));
+
+        JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setOpaque(false);
+
+        topContainer.add(createTitleBar(), BorderLayout.NORTH);
+        topContainer.add(topBar, BorderLayout.CENTER);
+
+        add(topContainer, BorderLayout.NORTH);
 
         JLabel title = new JLabel("JOB & INTERNSHIPS TRACKER");
         title.setForeground(ACCENT);
@@ -68,7 +80,7 @@ public class JobTracker extends JFrame {
 
         topBar.add(title, BorderLayout.WEST);
         topBar.add(addBtn, BorderLayout.EAST);
-        add(topBar, BorderLayout.NORTH);
+        
 
         JPanel header = new JPanel(new GridBagLayout());
         header.setBackground(HEADER_BG);
@@ -313,6 +325,84 @@ public class JobTracker extends JFrame {
             else if ("Rejected".equals(sel))    cb.setForeground(STATUS_REJECTED);
         });
         return cb;
+    }
+
+    private JPanel createTitleBar() {
+
+        JPanel bar = new JPanel(new BorderLayout());
+        bar.setBackground(new Color(255, 0, 0));
+        bar.setPreferredSize(new Dimension(0, 40));
+        bar.setMinimumSize(new Dimension(0, 40));
+
+        JLabel title = new JLabel("  Job Tracker");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("SansSerif", Font.BOLD, 14));
+
+        // Buttons panel
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+        buttons.setOpaque(false);
+
+        JButton minBtn = new JButton("—");
+        JButton closeBtn = new JButton("X");
+
+        styleWindowButton(minBtn);
+        styleWindowButton(closeBtn);
+
+        minBtn.setOpaque(true);
+        closeBtn.setOpaque(true);
+        minBtn.setBackground(Color.GRAY);
+        closeBtn.setBackground(Color.RED);
+
+        minBtn.addActionListener(e -> setState(JFrame.ICONIFIED));
+        closeBtn.addActionListener(e -> System.exit(0));
+
+        buttons.add(minBtn);
+        buttons.add(closeBtn);
+
+        bar.add(title, BorderLayout.WEST);
+        bar.add(buttons, BorderLayout.EAST);
+
+        // Dragging support
+        MouseAdapter drag = new MouseAdapter() {
+            int x, y;
+
+            public void mousePressed(MouseEvent e) {
+                x = e.getX();
+                y = e.getY();
+            }
+
+            public void mouseDragged(MouseEvent e) {
+                setLocation(
+                        e.getXOnScreen() - x,
+                        e.getYOnScreen() - y
+                );
+            }
+        };
+
+        bar.addMouseListener(drag);
+        bar.addMouseMotionListener(drag);
+
+        return bar;
+    }
+
+    private void styleWindowButton(JButton btn) {
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(false);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("SansSerif", Font.BOLD, 12));
+        btn.setPreferredSize(new Dimension(35, 25));
+
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                btn.setOpaque(true);
+                btn.setBackground(new Color(60, 60, 60));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                btn.setOpaque(false);
+            }
+        });
     }
 
     private void saveData() {
