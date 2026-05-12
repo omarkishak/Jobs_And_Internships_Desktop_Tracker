@@ -178,7 +178,7 @@ public class JobTracker extends JFrame {
         entry.numLabel = numLabel;
 
         // Company
-        JTextField companyField = styledTextField(company != null ? company : "", 200);
+        JTextField companyField = new RoundedTextField(company != null ? company : "", 200);
         entry.companyField = companyField;
 
         // Type
@@ -200,7 +200,7 @@ public class JobTracker extends JFrame {
         entry.statusBox = statusBox;
 
         // Link
-        JTextField linkField = styledTextField(link != null ? link : "", 200);
+        JTextField linkField = new RoundedTextField(link != null ? link : "", 200);
         linkField.setFont(new Font("SansSerif", Font.BOLD, 11));
         linkField.setForeground(new Color(100, 160, 255));
         linkField.setHorizontalAlignment(JTextField.CENTER);
@@ -457,6 +457,61 @@ public class JobTracker extends JFrame {
                     getWidth() - 3,
                     getHeight() - 3,
                     radius, radius);
+
+            g2.dispose();
+        }
+    }
+
+    class RoundedTextField extends JTextField {
+
+        private int radius = 15;
+
+        public RoundedTextField(String text, int width) {
+            super(text);
+            setPreferredSize(new Dimension(width, 32));
+
+            setOpaque(false);
+            setBackground(new Color(35, 35, 35));
+            setForeground(ACCENT);
+            setCaretColor(ACCENT);
+
+            setFont(new Font("SansSerif", Font.BOLD, 15));
+
+            setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+            setHorizontalAlignment(JTextField.CENTER);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // background
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
+            g2.dispose();
+
+            super.paintComponent(g);
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // focus color change
+            if (isFocusOwner()) {
+                g2.setColor(new Color(100, 150, 255));
+            } else {
+                g2.setColor(BORDER_COLOR);
+            }
+
+            g2.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, radius, radius);
 
             g2.dispose();
         }
