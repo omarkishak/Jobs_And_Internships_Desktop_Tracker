@@ -29,32 +29,25 @@ public class JobTracker extends JFrame {
 
     private JPanel entriesPanel;
     private JScrollPane scrollPane;
-    // save data in array
     private final java.util.List<JobEntry> entries = new ArrayList<>();
 
-    //main background & interface
     public JobTracker() {
         setTitle("Job Tracker");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1200, 700);
-        //smallest possible size
+
         setMinimumSize(new Dimension(950, 500));
-        // open in middle of the screen
         setLocationRelativeTo(null);
-        //background color
         setContentPane(new GradientPanel());
         setLayout(new BorderLayout());
-        //group elemnts together
         buildUI();
         loadData();
         setVisible(true);
     }
 
     private void buildUI() {
-        //top bar gui
         JPanel topBar = new JPanel(new BorderLayout());
         topBar.setBackground(BG_BLACK);
-        //control trancperency
         topBar.setOpaque(false);
         topBar.setBorder(new EmptyBorder(35, 36, 0, 36));
 
@@ -70,7 +63,6 @@ public class JobTracker extends JFrame {
         topBar.add(addBtn, BorderLayout.EAST);
         add(topBar, BorderLayout.NORTH);
 
-        //under bar shape
         JPanel header = new JPanel(new GridBagLayout());
         header.setBackground(HEADER_BG);
         header.setBorder(BorderFactory.createCompoundBorder(
@@ -78,14 +70,12 @@ public class JobTracker extends JFrame {
                 new EmptyBorder(10, 14, 10, 14)
         ));
 
-        //bar text building
         String[] cols   = {"#", "Company Name: ", "Type: ", "Field: ", "Status: ", "Link: ", "X"};
         int[]    widths = {40,  200,             110,    140,     130,      200,    80};
         GridBagConstraints ghc = new GridBagConstraints();
         ghc.fill = GridBagConstraints.HORIZONTAL;
         ghc.insets = new Insets(0, 4, 0, 4);
 
-        //bar text printing
         for (int i = 0; i < cols.length; i++) {
             ghc.gridx = i;
             ghc.weightx = (i == 5) ? 1.0 : 0;
@@ -96,7 +86,6 @@ public class JobTracker extends JFrame {
             header.add(lbl, ghc);
         }
 
-        //panel and scrollpanel
         entriesPanel = new JPanel();
         entriesPanel.setLayout(new BoxLayout(entriesPanel, BoxLayout.Y_AXIS));
         entriesPanel.setBackground(BG_BLACK);
@@ -108,12 +97,10 @@ public class JobTracker extends JFrame {
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
 
-        //scroll bar color and size
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         scrollPane.getVerticalScrollBar().setBackground(BG_BLACK);
         scrollPane.getHorizontalScrollBar().setBackground(BG_BLACK);
 
-        //distance between title and bar
         JPanel centerArea = new JPanel(new BorderLayout());
         centerArea.setBackground(BG_BLACK);
         centerArea.setOpaque(false);
@@ -123,7 +110,6 @@ public class JobTracker extends JFrame {
         centerArea.add(scrollPane, BorderLayout.CENTER);
         add(centerArea, BorderLayout.CENTER);
 
-        //status specification
         JPanel statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT, 36, 8));
         statusBar.setBackground(new Color(15, 15, 15));
         statusBar.setOpaque(false);
@@ -137,7 +123,6 @@ public class JobTracker extends JFrame {
         add(statusBar, BorderLayout.SOUTH);
     }
 
-    //add button color
     private void styleAddButton(JButton btn) {
         btn.setBackground(BTN_ADD_BG);
         btn.setForeground(BTN_ADD_FG);
@@ -154,13 +139,11 @@ public class JobTracker extends JFrame {
         });
     }
 
-    //resorting number
     private void renumberRows() {
         for (int i = 0; i < entries.size(); i++) {
             entries.get(i).numLabel.setText(String.valueOf(i + 1));
         }
     }
-
 
     private void addNewEntry(String company, String type, String field, String status, String link) {
         JobEntry entry = new JobEntry();
@@ -241,7 +224,7 @@ public class JobTracker extends JFrame {
             entriesPanel.remove(rowRef);
             entriesPanel.revalidate();
             entriesPanel.repaint();
-            renumberRows(); // ← update all numbers after deletion
+            renumberRows();
             saveData();
         });
 
@@ -273,7 +256,6 @@ public class JobTracker extends JFrame {
         if (company == null) saveData();
     }
 
-    //text field when writing
     private JTextField styledTextField(String text, int width) {
         JTextField f = new JTextField(text);
         f.setBackground(new Color(35, 35, 35));
