@@ -55,7 +55,14 @@ public class JobTracker extends JFrame {
         title.setForeground(ACCENT);
         title.setFont(new Font("SansSerif", Font.BOLD, 30));
 
-        JButton addBtn = new JButton("Add New Application");
+        //Add Button GUI
+        JButton addBtn = new RoundedButton(
+                "Add New Application",
+                40,
+                Color.WHITE,
+                new Color(200, 200, 200),
+                new Color(230, 230, 230)
+        );
         styleAddButton(addBtn);
         addBtn.addActionListener(e -> addNewEntry(null, null, null, null, null));
 
@@ -123,14 +130,12 @@ public class JobTracker extends JFrame {
         add(statusBar, BorderLayout.SOUTH);
     }
 
+    //Add Button GUI / Style
     private void styleAddButton(JButton btn) {
         btn.setBackground(BTN_ADD_BG);
         btn.setForeground(BTN_ADD_FG);
         btn.setFont(new Font("SansSerif", Font.BOLD, 12));
-        btn.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(new Color(200, 200, 200), 1),
-                new EmptyBorder(8, 18, 8, 18)
-        ));
+        btn.setBorder(new EmptyBorder(8, 18, 8, 18));
         btn.setFocusPainted(false);
         btn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btn.addMouseListener(new MouseAdapter() {
@@ -202,18 +207,24 @@ public class JobTracker extends JFrame {
         entry.linkField = linkField;
 
         // Delete
-        JButton delBtn = new JButton("Delete");
+        JButton delBtn = new RoundedButton(
+                "Delete",
+                20,
+                new Color(40, 15, 15),
+                new Color(220, 80, 80),
+                new Color(60, 20, 20)
+        );
         delBtn.setBackground(BTN_DEL_BG);
         delBtn.setForeground(BTN_DEL_FG);
-        delBtn.setFont(new Font("SansSerif", Font.BOLD, 10));
+        delBtn.setFont(new Font("SansSerif", Font.BOLD, 13));
         delBtn.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(new Color(100, 30, 30), 1),
+                new LineBorder(new Color(100, 30, 30), 2),
                 new EmptyBorder(5, 10, 5, 10)
         ));
         delBtn.setFocusPainted(false);
         delBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         delBtn.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { delBtn.setBackground(new Color(80, 20, 20)); }
+            public void mouseEntered(MouseEvent e) { delBtn.setBackground(new Color(57, 14, 14)); }
             public void mouseExited(MouseEvent e)  { delBtn.setBackground(BTN_DEL_BG); }
         });
 
@@ -368,6 +379,86 @@ public class JobTracker extends JFrame {
 
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, getWidth(), getHeight());
+        }
+    }
+
+    class RoundedButton extends JButton {
+
+        private int radius;
+        private Color borderColor;
+        private Color fillColor;
+        private Color hoverColor;
+
+        public RoundedButton(String text, int radius, Color fill, Color border, Color hover) {
+            super(text);
+
+            this.radius = radius;
+            this.fillColor = fill;
+            this.borderColor = border;
+            this.hoverColor = hover;
+
+            setContentAreaFilled(false);
+            setFocusPainted(false);
+            setBorderPainted(false);
+            setOpaque(false);
+            setForeground(new Color(30, 30, 30));
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    setBackground(hoverColor);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    setBackground(fillColor);
+                }
+            });
+
+            setBackground(fillColor);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            // background
+            g2.setColor(getBackground());
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
+            // text
+            g2.setColor(getForeground());
+            FontMetrics fm = g2.getFontMetrics();
+
+            int textX = (getWidth() - fm.stringWidth(getText())) / 2;
+            int textY = (getHeight() + fm.getAscent()) / 2 - 2;
+
+            g2.drawString(getText(), textX, textY);
+
+            g2.dispose();
+        }
+
+        @Override
+        protected void paintBorder(Graphics g) {
+
+            Graphics2D g2 = (Graphics2D) g.create();
+
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(borderColor);
+            g2.setStroke(new BasicStroke(2));
+
+            g2.drawRoundRect(1, 1,
+                    getWidth() - 3,
+                    getHeight() - 3,
+                    radius, radius);
+
+            g2.dispose();
         }
     }
 
