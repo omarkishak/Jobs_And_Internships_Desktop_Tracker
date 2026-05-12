@@ -80,7 +80,7 @@ public class JobTracker extends JFrame {
 
         topBar.add(title, BorderLayout.WEST);
         topBar.add(addBtn, BorderLayout.EAST);
-        
+
 
         JPanel header = new JPanel(new GridBagLayout());
         header.setBackground(HEADER_BG);
@@ -330,12 +330,12 @@ public class JobTracker extends JFrame {
     private JPanel createTitleBar() {
 
         JPanel bar = new JPanel(new BorderLayout());
-        bar.setBackground(new Color(255, 0, 0));
+        bar.setBackground(new Color(18, 18, 18, 255));
         bar.setPreferredSize(new Dimension(0, 40));
         bar.setMinimumSize(new Dimension(0, 40));
 
         JLabel title = new JLabel("  Job Tracker");
-        title.setForeground(Color.WHITE);
+        title.setForeground(ACCENT_DIM);
         title.setFont(new Font("SansSerif", Font.BOLD, 14));
 
         // Buttons panel
@@ -343,20 +343,38 @@ public class JobTracker extends JFrame {
         buttons.setOpaque(false);
 
         JButton minBtn = new JButton("—");
+        JButton smlBtn = new JButton("□");
         JButton closeBtn = new JButton("X");
 
         styleWindowButton(minBtn);
+        styleWindowButton(smlBtn);
         styleWindowButton(closeBtn);
 
         minBtn.setOpaque(true);
+        smlBtn.setOpaque(true);
         closeBtn.setOpaque(true);
-        minBtn.setBackground(Color.GRAY);
-        closeBtn.setBackground(Color.RED);
+        minBtn.setBackground(new Color(1, 33, 33, 33));
+        smlBtn.setBackground(new Color(1, 33, 33, 33));
+        closeBtn.setBackground(new Color(1, 33, 33, 33));
 
         minBtn.addActionListener(e -> setState(JFrame.ICONIFIED));
         closeBtn.addActionListener(e -> System.exit(0));
+        smlBtn.addActionListener(e -> {
+
+            if ((getExtendedState() & JFrame.MAXIMIZED_BOTH) == JFrame.MAXIMIZED_BOTH) {
+
+                setExtendedState(JFrame.NORMAL);
+
+            } else {
+
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+            }
+
+        });
 
         buttons.add(minBtn);
+        buttons.add(smlBtn);
         buttons.add(closeBtn);
 
         bar.add(title, BorderLayout.WEST);
@@ -389,18 +407,30 @@ public class JobTracker extends JFrame {
         btn.setFocusPainted(false);
         btn.setBorderPainted(false);
         btn.setContentAreaFilled(false);
-        btn.setForeground(Color.WHITE);
+        btn.setForeground(ACCENT_DIM);
         btn.setFont(new Font("SansSerif", Font.BOLD, 12));
-        btn.setPreferredSize(new Dimension(35, 25));
+        btn.setPreferredSize(new Dimension(50, 40));
 
         btn.addMouseListener(new MouseAdapter() {
+
             public void mouseEntered(MouseEvent e) {
+
                 btn.setOpaque(true);
-                btn.setBackground(new Color(60, 60, 60));
+
+                if(btn.getText().equals("X")) {
+
+                    btn.setBackground(new Color(255, 47, 47));
+
+                } else {
+
+                    btn.setBackground(new Color(60, 60, 60));
+
+                }
             }
 
             public void mouseExited(MouseEvent e) {
                 btn.setOpaque(false);
+                btn.setBackground(new Color(1, 33, 33, 33));
             }
         });
     }
