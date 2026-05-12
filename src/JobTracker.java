@@ -4,9 +4,12 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-//data retrieve
 import java.io.*;
 import java.util.*;
+
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
 
 public class JobTracker extends JFrame {
 
@@ -46,6 +49,66 @@ public class JobTracker extends JFrame {
         loadData();
 
         setVisible(true);
+
+    }
+
+    class RoundedComboBoxUI extends BasicComboBoxUI {
+
+        private final int radius = 12;
+
+        @Override
+        protected JButton createArrowButton() {
+            JButton b = new JButton() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+
+                    Graphics2D g2 = (Graphics2D) g.create();
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                            RenderingHints.VALUE_ANTIALIAS_ON);
+
+                    g2.setColor(ACCENT);
+
+                    int w = getWidth();
+                    int h = getHeight();
+
+                    int[] xPoints = { w / 2 - 5, w / 2 + 5, w / 2 };
+                    int[] yPoints = { h / 2 - 2, h / 2 - 2, h / 2 + 4 };
+
+                    g2.fillPolygon(xPoints, yPoints, 3);
+                    g2.dispose();
+                }
+            };
+
+            b.setBorderPainted(false);
+            b.setContentAreaFilled(false);
+            b.setFocusPainted(false);
+            b.setOpaque(false);
+            b.setPreferredSize(new Dimension(28, 24));
+            return b;
+        }
+
+        @Override
+        protected ComboPopup createPopup() {
+            BasicComboPopup popup = new BasicComboPopup(comboBox);
+            popup.setBorder(new LineBorder(BORDER_COLOR, 1, true));
+            return popup;
+        }
+
+        @Override
+        public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON);
+
+            g2.setColor(comboBox.getBackground());
+            g2.fillRoundRect(0, 0, comboBox.getWidth() - 1, comboBox.getHeight() - 1, radius, radius);
+
+            g2.setColor(hasFocus ? ACCENT_DIM : BORDER_COLOR);
+            g2.drawRoundRect(0, 0, comboBox.getWidth() - 1, comboBox.getHeight() - 1, radius, radius);
+
+            g2.dispose();
+        }
     }
 
     private void buildUI() {
@@ -70,9 +133,9 @@ public class JobTracker extends JFrame {
         //Add Button GUI
         JButton addBtn = new RoundedButton(
                 "Add New Application",
-                40,
+                20,
                 Color.WHITE,
-                new Color(200, 200, 200),
+                new Color(43, 43, 43),
                 new Color(230, 230, 230)
         );
         styleAddButton(addBtn);
@@ -90,7 +153,7 @@ public class JobTracker extends JFrame {
         ));
 
         String[] cols   = {"#", "Company Name: ", "Type: ", "Field: ", "Status: ", "Link: ", "X"};
-        int[]    widths = {40,  200,             110,    140,     130,      200,    80};
+        int[]    widths = {40, 200, 150, 160, 150, 200, 80};
         GridBagConstraints ghc = new GridBagConstraints();
         ghc.fill = GridBagConstraints.HORIZONTAL;
         ghc.insets = new Insets(0, 4, 0, 4);
@@ -182,47 +245,47 @@ public class JobTracker extends JFrame {
         rc.insets = new Insets(0, 4, 0, 4);
         rc.gridy = 0;
 
-        // Row number stored in entry so renumberRows() can update it
+        //row number stored in entry so renumberRows() can update it
         JLabel numLabel = new JLabel(String.valueOf(entries.size()), SwingConstants.CENTER);
         numLabel.setForeground(new Color(100, 100, 100));
         numLabel.setFont(new Font("SansSerif", Font.BOLD, 15));
         numLabel.setPreferredSize(new Dimension(40, 32));
         entry.numLabel = numLabel;
 
-        // Company
+        //company
         JTextField companyField = new RoundedTextField(company != null ? company : "", 200);
         entry.companyField = companyField;
 
-        // Type
+        //type
         String[] types = {"Job", "Internship"};
         JComboBox<String> typeBox = styledCombo(types);
         if (type != null) typeBox.setSelectedItem(type);
         entry.typeBox = typeBox;
 
-        // Field
+        //field
         String[] fields = {"Tech", "Design", "Out Sourcing", "Sales", "Other"};
         JComboBox<String> fieldBox = styledCombo(fields);
         if (field != null) fieldBox.setSelectedItem(field);
         entry.fieldBox = fieldBox;
 
-        // Status
+        //status
         String[] statuses = {"Waiting", "In Progress", "Accepted", "Rejected"};
         JComboBox<String> statusBox = styledComboStatus(statuses);
         if (status != null) statusBox.setSelectedItem(status);
         entry.statusBox = statusBox;
 
-        // Link
+        //link
         JTextField linkField = new RoundedTextField(link != null ? link : "", 200);
-        linkField.setFont(new Font("SansSerif", Font.BOLD, 11));
-        linkField.setForeground(new Color(100, 160, 255));
+        linkField.setFont(new Font("SansSerif", Font.BOLD, 15));
+        linkField.setForeground(new Color(87, 145, 255));
         linkField.setHorizontalAlignment(JTextField.CENTER);
         entry.linkField = linkField;
 
-        // Delete
+        //delete
         JButton delBtn = new RoundedButton(
                 "Delete",
                 20,
-                new Color(40, 15, 15),
+                new Color(37, 14, 14),
                 new Color(220, 80, 80),
                 new Color(60, 20, 20)
         );
@@ -258,7 +321,7 @@ public class JobTracker extends JFrame {
         fieldBox.addActionListener(e -> saveData());
         statusBox.addActionListener(e -> saveData());
 
-        int[] widths = {40, 200, 110, 140, 130, -1, 80};
+        int[] widths = {40, 200, 150, 160, 150, -1, 80};
         Component[] comps = {numLabel, companyField, typeBox, fieldBox, statusBox, linkField, delBtn};
         for (int i = 0; i < comps.length; i++) {
             rc.gridx = i;
@@ -279,51 +342,72 @@ public class JobTracker extends JFrame {
         if (company == null) saveData();
     }
 
-    private JTextField styledTextField(String text, int width) {
-        JTextField f = new JTextField(text);
-        f.setBackground(new Color(35, 35, 35));
-        f.setForeground(ACCENT);
-        f.setCaretColor(ACCENT);
-        f.setFont(new Font("SansSerif", Font.BOLD, 15));
-        f.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(BORDER_COLOR, 1),
-                new EmptyBorder(4, 8, 4, 8)
-        ));
-        f.setPreferredSize(new Dimension(width, 32));
-        f.setHorizontalAlignment(JTextField.CENTER);
-        return f;
-    }
 
     private JComboBox<String> styledCombo(String[] items) {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(new Color(35, 35, 35));
         cb.setForeground(ACCENT);
         cb.setFont(new Font("SansSerif", Font.BOLD, 11));
-        cb.setBorder(new LineBorder(BORDER_COLOR, 1));
         cb.setFocusable(false);
-        DefaultListCellRenderer r = new DefaultListCellRenderer();
-        r.setHorizontalAlignment(SwingConstants.CENTER);
+        cb.setOpaque(false);
+        cb.setBorder(BorderFactory.createEmptyBorder(2, 10, 2, 10));
+        cb.setUI(new RoundedComboBoxUI());
+
+        DefaultListCellRenderer r = new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel lbl = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus
+                );
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
+                lbl.setOpaque(true);
+                lbl.setBackground(isSelected ? new Color(60, 60, 60) : new Color(30, 30, 30));
+                lbl.setForeground(ACCENT);
+                return lbl;
+            }
+        };
         cb.setRenderer(r);
+
         return cb;
     }
 
     private JComboBox<String> styledComboStatus(String[] items) {
         JComboBox<String> cb = new JComboBox<>(items);
         cb.setBackground(new Color(35, 35, 35));
-        cb.setForeground(STATUS_WAITING);
+        cb.setForeground(Color.WHITE);
         cb.setFont(new Font("SansSerif", Font.BOLD, 11));
-        cb.setBorder(new LineBorder(BORDER_COLOR, 1));
         cb.setFocusable(false);
-        DefaultListCellRenderer r = new DefaultListCellRenderer();
-        r.setHorizontalAlignment(SwingConstants.CENTER);
+        cb.setOpaque(false);
+        cb.setBorder(BorderFactory.createEmptyBorder(3, 10, 3, 10));
+        cb.setUI(new RoundedComboBoxUI());
+
+        DefaultListCellRenderer r = new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
+                                                          boolean isSelected, boolean cellHasFocus) {
+                JLabel lbl = (JLabel) super.getListCellRendererComponent(
+                        list, value, index, isSelected, cellHasFocus
+                );
+                lbl.setHorizontalAlignment(SwingConstants.CENTER);
+                lbl.setBorder(BorderFactory.createEmptyBorder(6, 10, 6, 10));
+                lbl.setOpaque(true);
+                lbl.setBackground(isSelected ? new Color(60, 60, 60) : new Color(30, 30, 30));
+                lbl.setForeground(STATUS_WAITING);
+                return lbl;
+            }
+        };
         cb.setRenderer(r);
+
         cb.addActionListener(e -> {
             String sel = (String) cb.getSelectedItem();
-            if ("Waiting".equals(sel))          cb.setForeground(STATUS_WAITING);
+            if ("Waiting".equals(sel)) cb.setForeground(STATUS_WAITING);
             else if ("In Progress".equals(sel)) cb.setForeground(STATUS_PROGRESS);
-            else if ("Accepted".equals(sel))    cb.setForeground(STATUS_ACCEPTED);
-            else if ("Rejected".equals(sel))    cb.setForeground(STATUS_REJECTED);
+            else if ("Accepted".equals(sel)) cb.setForeground(STATUS_ACCEPTED);
+            else if ("Rejected".equals(sel)) cb.setForeground(STATUS_REJECTED);
         });
+
         return cb;
     }
 
@@ -338,7 +422,7 @@ public class JobTracker extends JFrame {
         title.setForeground(ACCENT_DIM);
         title.setFont(new Font("SansSerif", Font.BOLD, 14));
 
-        // Buttons panel
+        //Buttons panel
         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
         buttons.setOpaque(false);
 
@@ -380,7 +464,7 @@ public class JobTracker extends JFrame {
         bar.add(title, BorderLayout.WEST);
         bar.add(buttons, BorderLayout.EAST);
 
-        // Dragging support
+        //dragging support
         MouseAdapter drag = new MouseAdapter() {
             int x, y;
 
@@ -546,11 +630,11 @@ public class JobTracker extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // background
+            //background
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
-            // text
+            //text
             g2.setColor(getForeground());
             FontMetrics fm = g2.getFontMetrics();
 
@@ -584,7 +668,7 @@ public class JobTracker extends JFrame {
 
     class RoundedTextField extends JTextField {
 
-        private int radius = 15;
+        private int radius = 11;
 
         public RoundedTextField(String text, int width) {
             super(text);
@@ -608,7 +692,7 @@ public class JobTracker extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // background
+            //background
             g2.setColor(getBackground());
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
@@ -624,9 +708,9 @@ public class JobTracker extends JFrame {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // focus color change
+            //focus color change
             if (isFocusOwner()) {
-                g2.setColor(new Color(100, 150, 255));
+                g2.setColor(ACCENT_DIM);
             } else {
                 g2.setColor(BORDER_COLOR);
             }
