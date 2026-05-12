@@ -1,185 +1,222 @@
-JobTracker Application
+JOB TRACKER APPLICATION
 │
-├── main()
-│    │
-│    ├── Set Swing UI look & feel
-│    ├── Customize scrollbar colors
-│    └── Launch JobTracker window
+├── MAIN CLASS
+│   └── JobTracker extends JFrame
 │
+├── APPLICATION START
+│   │
+│   ├── main(String[] args)
+│   │   │
+│   │   ├── Set LookAndFeel
+│   │   ├── Customize ScrollBar UI
+│   │   └── Launch Window
+│   │       └── SwingUtilities.invokeLater(JobTracker::new)
+│   │
+│   └── JobTracker() Constructor
+│       │
+│       ├── Remove default window frame
+│       ├── Configure JFrame
+│       │   ├── setTitle()
+│       │   ├── setSize()
+│       │   ├── setMinimumSize()
+│       │   ├── setLocationRelativeTo(null)
+│       │   └── setLayout(BorderLayout)
+│       │
+│       ├── Set custom background
+│       │   └── setContentPane(new GradientPanel())
+│       │
+│       ├── Build GUI
+│       │   └── buildUI()
+│       │
+│       ├── Load saved data
+│       │   └── loadData()
+│       │
+│       └── Display window
+│           └── setVisible(true)
 │
-└── JobTracker (JFrame Window)
-     │
-     ├── Constructor
-     │    │
-     │    ├── Set title
-     │    ├── Set window size
-     │    ├── Set minimum size
-     │    ├── Center window on screen
-     │    ├── Set GradientPanel as background
-     │    ├── Set BorderLayout
-     │    ├── buildUI()
-     │    ├── loadData()
-     │    └── setVisible(true)
-     │
-     │
-     ├── GradientPanel (custom background painter)
-     │    │
-     │    └── paintComponent(Graphics g)
-     │          │
-     │          ├── Create Graphics2D
-     │          ├── Create start color
-     │          ├── Create end color
-     │          ├── Create GradientPaint
-     │          └── Paint full window gradient
-     │
-     │
-     ├── buildUI()
-     │    │
-     │    ├── Top Bar
-     │    │    │
-     │    │    ├── Title Label
-     │    │    └── "Add New Application" Button
-     │    │
-     │    │
-     │    ├── Header Row
-     │    │    │
-     │    │    ├── #
-     │    │    ├── Company Name
-     │    │    ├── Type
-     │    │    ├── Field
-     │    │    ├── Status
-     │    │    ├── Link
-     │    │    └── Delete Column
-     │    │
-     │    │
-     │    ├── entriesPanel (stores all rows)
-     │    │    │
-     │    │    ├── row 1
-     │    │    ├── row 2
-     │    │    ├── row 3
-     │    │    └── ...
-     │    │
-     │    │
-     │    ├── scrollPane
-     │    │    │
-     │    │    └── makes entriesPanel scrollable
-     │    │
-     │    │
-     │    ├── centerArea
-     │    │    │
-     │    │    ├── header
-     │    │    └── scrollPane
-     │    │
-     │    │
-     │    └── statusBar
-     │         │
-     │         └── "data saved automatically" label
-     │
-     │
-     ├── entries List
-     │    │
-     │    └── stores all JobEntry objects
-     │
-     │
-     ├── addNewEntry(...)
-     │    │
-     │    ├── Create JobEntry object
-     │    ├── Add object to entries list
-     │    ├── Create row JPanel
-     │    │
-     │    ├── Create components
-     │    │    │
-     │    │    ├── Number label
-     │    │    ├── Company text field
-     │    │    ├── Type combo box
-     │    │    ├── Field combo box
-     │    │    ├── Status combo box
-     │    │    ├── Link text field
-     │    │    └── Delete button
-     │    │
-     │    │
-     │    ├── Add listeners
-     │    │    │
-     │    │    ├── Text change → saveData()
-     │    │    ├── Combo change → saveData()
-     │    │    └── Delete button → remove row
-     │    │
-     │    │
-     │    ├── Add row to entriesPanel
-     │    ├── Refresh UI
-     │    ├── Scroll to bottom
-     │    └── Save automatically
-     │
-     │
-     ├── Delete Button Logic
-     │    │
-     │    ├── Remove JobEntry from entries list
-     │    ├── Remove row panel from entriesPanel
-     │    ├── Revalidate UI
-     │    ├── Repaint UI
-     │    ├── renumberRows()
-     │    └── saveData()
-     │
-     │
-     ├── renumberRows()
-     │    │
-     │    └── Update all row numbers after deletion
-     │
-     │
-     ├── styledTextField()
-     │    │
-     │    └── Creates styled JTextField
-     │
-     │
-     ├── styledCombo()
-     │    │
-     │    └── Creates styled JComboBox
-     │
-     │
-     ├── styledComboStatus()
-     │    │
-     │    ├── Creates status combo box
-     │    └── Changes text color based on status
-     │
-     │
-     ├── saveData()
-     │    │
-     │    ├── Open job_tracker_data.txt
-     │    ├── Loop through entries list
-     │    ├── Extract field values
-     │    ├── Convert data to:
-     │    │
-     │    │      company|type|field|status|link
-     │    │
-     │    └── Write all rows to file
-     │
-     │
-     ├── loadData()
-     │    │
-     │    ├── Open data file
-     │    ├── Read line by line
-     │    ├── Split line using |
-     │    ├── Recreate saved values
-     │    └── Call addNewEntry(...)
-     │
-     │
-     ├── JobEntry class
-     │    │
-     │    └── Stores references to row components
-     │         │
-     │         ├── numLabel
-     │         ├── companyField
-     │         ├── typeBox
-     │         ├── fieldBox
-     │         ├── statusBox
-     │         └── linkField
-     │
-     │
-     └── SimpleDocListener
-          │
-          └── Detects text changes
-               │
-               ├── insertUpdate()
-               ├── removeUpdate()
-               ├── changedUpdate()
-               └── onChange()
+├── UI STRUCTURE
+│   │
+│   ├── NORTH SECTION
+│   │   │
+│   │   ├── Custom Title Bar
+│   │   │   └── createTitleBar()
+│   │   │       │
+│   │   │       ├── App title
+│   │   │       ├── Minimize button
+│   │   │       ├── Maximize button
+│   │   │       ├── Close button
+│   │   │       └── Dragging support
+│   │   │
+│   │   └── Top Bar
+│   │       │
+│   │       ├── Main title label
+│   │       └── Add Application button
+│   │
+│   ├── CENTER SECTION
+│   │   │
+│   │   ├── Header Row
+│   │   │   ├── #
+│   │   │   ├── Company Name
+│   │   │   ├── Type
+│   │   │   ├── Field
+│   │   │   ├── Status
+│   │   │   ├── Link
+│   │   │   └── Delete column
+│   │   │
+│   │   ├── entriesPanel
+│   │   │   └── Stores all job rows vertically
+│   │   │
+│   │   ├── scrollPane
+│   │   │   └── Makes entriesPanel scrollable
+│   │   │
+│   │   └── centerArea
+│   │       ├── Header at NORTH
+│   │       └── ScrollPane at CENTER
+│   │
+│   └── SOUTH SECTION
+│       │
+│       └── Status Bar
+│           └── Auto-save message
+│
+├── DATA STORAGE
+│   │
+│   ├── DATA_FILE
+│   │   └── "job_tracker_data.txt"
+│   │
+│   ├── entries
+│   │   └── ArrayList<JobEntry>
+│   │
+│   ├── saveData()
+│   │   │
+│   │   ├── Loop through entries
+│   │   ├── Read all field values
+│   │   ├── Convert into text format
+│   │   └── Save into file
+│   │
+│   └── loadData()
+│       │
+│       ├── Open text file
+│       ├── Read line by line
+│       ├── Split data using "|"
+│       └── Recreate rows using addNewEntry()
+│
+├── ENTRY SYSTEM
+│   │
+│   ├── addNewEntry(...)
+│   │   │
+│   │   ├── Create JobEntry object
+│   │   ├── Add object to entries list
+│   │   ├── Create row panel
+│   │   ├── Create all row components
+│   │   │   ├── Number label
+│   │   │   ├── Company field
+│   │   │   ├── Type combo box
+│   │   │   ├── Field combo box
+│   │   │   ├── Status combo box
+│   │   │   ├── Link field
+│   │   │   └── Delete button
+│   │   │
+│   │   ├── Add listeners
+│   │   │   ├── Auto-save on typing
+│   │   │   ├── Auto-save on selection
+│   │   │   └── Delete row event
+│   │   │
+│   │   ├── Add row into entriesPanel
+│   │   ├── Refresh UI
+│   │   └── Auto-scroll to bottom
+│   │
+│   └── renumberRows()
+│       └── Updates row numbers after deletion
+│
+├── CUSTOM COMPONENTS
+│   │
+│   ├── GradientPanel extends JPanel
+│   │   │
+│   │   ├── Overrides paintComponent()
+│   │   ├── Uses Graphics2D
+│   │   ├── Creates GradientPaint
+│   │   └── Paints window background
+│   │
+│   ├── RoundedButton extends JButton
+│   │   │
+│   │   ├── Custom rounded background
+│   │   ├── Custom rounded border
+│   │   ├── Hover effect
+│   │   └── Anti-aliased rendering
+│   │
+│   ├── RoundedTextField extends JTextField
+│   │   │
+│   │   ├── Rounded background
+│   │   ├── Rounded border
+│   │   ├── Focus border color
+│   │   └── Custom painting
+│   │
+│   └── RoundedComboBoxUI extends BasicComboBoxUI
+│       │
+│       ├── Custom arrow button
+│       ├── Rounded popup menu
+│       ├── Rounded background
+│       └── Custom border drawing
+│
+├── COMBO BOX SYSTEM
+│   │
+│   ├── styledCombo()
+│   │   │
+│   │   ├── Create JComboBox
+│   │   ├── Apply RoundedComboBoxUI
+│   │   ├── Apply custom renderer
+│   │   └── Style dropdown menu
+│   │
+│   └── styledComboStatus()
+│       │
+│       ├── Same as styledCombo()
+│       ├── Adds status colors
+│       └── Changes text color dynamically
+│
+├── WINDOW CONTROL SYSTEM
+│   │
+│   ├── styleWindowButton()
+│   │   ├── Removes default button style
+│   │   ├── Adds hover effects
+│   │   └── Special red close button hover
+│   │
+│   └── createTitleBar()
+│       │
+│       ├── Minimize window
+│       ├── Maximize/restore window
+│       ├── Close application
+│       └── Drag undecorated window
+│
+├── EVENT SYSTEM
+│   │
+│   ├── MouseListener
+│   │   ├── Hover effects
+│   │   ├── Window dragging
+│   │   └── Button interaction
+│   │
+│   ├── ActionListener
+│   │   ├── Add entry
+│   │   ├── Delete entry
+│   │   ├── ComboBox changes
+│   │   └── Window buttons
+│   │
+│   └── DocumentListener
+│       └── Auto-save while typing
+│
+└── HELPER STRUCTURES
+    │
+    ├── JobEntry class
+    │   │
+    │   ├── numLabel
+    │   ├── companyField
+    │   ├── typeBox
+    │   ├── fieldBox
+    │   ├── statusBox
+    │   └── linkField
+    │
+    └── SimpleDocListener interface
+        │
+        ├── insertUpdate()
+        ├── removeUpdate()
+        ├── changedUpdate()
+        └── Calls onChange()
